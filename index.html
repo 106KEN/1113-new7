@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>旅遊季節與費用問答</title>
+<style>
+:root{--bg:#06231f;--card:#0b3a31;--line:#1f5a4c;--tx:#eaf6f1;--mut:#9cc4b8;--g:#06c755;--ok:#c9a227;--no:#7a3b3b}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.6 "Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;padding-bottom:env(safe-area-inset-bottom)}
+header{padding:18px 16px 8px}h1{margin:0;font-size:22px}header p{margin:2px 0 0;color:var(--mut);font-size:13px}
+nav{display:flex;gap:6px;padding:8px 16px;position:sticky;top:0;background:var(--bg);z-index:5}
+nav button,.chip,select,textarea,input{font:inherit}
+nav button{flex:1;padding:9px;border:1px solid var(--line);background:none;color:var(--mut);border-radius:10px}
+nav button[aria-selected=true]{background:var(--g);color:#04170b;border-color:var(--g);font-weight:700}
+main{padding:8px 16px 24px;max-width:640px;margin:auto}section{display:none}section.on{display:block}
+h2{font-size:15px;margin:18px 0 8px;color:var(--mut);font-weight:700}
+select,input,textarea{width:100%;padding:10px 12px;background:var(--card);color:var(--tx);border:1px solid var(--line);border-radius:10px}
+.row{display:flex;gap:8px}.row>*{flex:1}.row .btn{flex:0 0 auto}
+.chips{display:flex;flex-wrap:wrap;gap:6px}.chip{padding:6px 12px;border:1px solid var(--line);background:none;color:var(--tx);border-radius:99px}
+.chip[aria-pressed=true]{border-color:var(--g);background:#0c4a3c}
+.btn{padding:10px 16px;border:0;border-radius:10px;background:var(--g);color:#04170b;font-weight:700}
+.list{display:grid;gap:6px}
+.item{display:grid;grid-template-columns:14px 1fr;gap:10px;align-items:center;text-align:left;width:100%;padding:10px 12px;background:var(--card);border:1px solid var(--line);color:var(--tx);border-radius:10px}
+.dot{width:12px;height:12px;border-radius:50%}.d2{background:var(--g)}.d1{background:var(--ok)}.d0{background:var(--no)}
+.item small{display:block;color:var(--mut)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-top:10px}
+.card h3{margin:0 0 6px;font-size:20px}
+.months{display:grid;grid-template-columns:repeat(12,1fr);gap:3px;margin:8px 0}
+.months i{height:30px;border-radius:5px;font-style:normal;font-size:11px;text-align:center;line-height:30px;color:#04170b}
+.months .m2{background:var(--g)}.months .m1{background:var(--ok)}.months .m0{background:var(--no);color:#e8c4c4}
+.legend{font-size:12px;color:var(--mut)}
+.price{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+.price div{background:var(--bg);border-radius:10px;padding:10px}.price b{display:block;font-size:20px}.price span{font-size:12px;color:var(--mut)}
+.ans{white-space:pre-wrap;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px;margin-top:10px}
+ol{padding-left:20px}li{margin:6px 0}.note{font-size:12px;color:var(--mut);margin-top:14px}
+button:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #fff;outline-offset:2px}
+</style></head><body>
+<header><h1>旅遊季節與費用問答</h1><p>台灣出發・費用為概估，出發前請查最新報價</p></header>
+<nav role="tablist"><button role="tab" data-t="qa" aria-selected="true">問答</button><button role="tab" data-t="help" aria-selected="false">使用說明</button><button role="tab" data-t="bug" aria-selected="false">問題回報</button></nav>
+<main>
+<section id="qa" class="on">
+ <h2>我想幾月出發？</h2>
+ <select id="mon" aria-label="出發月份"></select>
+ <h2>地區</h2><div class="chips" id="reg"></div>
+ <h2 id="lt">這個月去哪裡比較合適</h2><div class="list" id="list"></div>
+ <div id="detail"></div>
+ <h2>問 AI（其他問題）</h2>
+ <div class="row"><input id="q" placeholder="例如：帶長輩去日本，幾月比較舒服？" aria-label="問題"><button class="btn" id="ask">送出</button></div>
+ <div id="ans"></div>
+</section>
+<section id="help">
+ <h2>a. 這個產品怎麼用？</h2>
+ <ol><li>在 LINE 圖文選單點中間的「AI 客服」，會開啟這個問答頁。</li><li>選出發月份和地區，綠點是最佳、黃點可去、紅點建議避開。</li><li>點任何一個國家，看 12 個月適合度、跟團與自由行的概估費用。</li><li>想問別的，在「問 AI」輸入問題；在 LINE 聊天室直接傳訊息也可以。</li></ol>
+ <h2>費用怎麼算</h2><p>以台灣出發、標示天數、一般等級住宿估算，不含簽證、小費、個人購物，旺季與節日會更高。</p>
+</section>
+<section id="bug">
+ <h2>b. 發現問題，怎麼回報？</h2>
+ <textarea id="bugtx" rows="5" placeholder="哪一頁、哪個國家、哪個數字不對？"></textarea>
+ <div class="row" style="margin-top:8px"><button class="btn" id="gh">到 GitHub 回報</button><button class="btn" id="sendbug">傳到 LINE 聊天室</button></div>
+ <p class="note">GitHub 回報會開啟新 Issue 並帶入你寫的內容；需要協助可在 repo 裡邀請協作者一起處理。</p>
+</section>
+</main>
+<script>
+const CFG={LIFF_ID:"",AI_ENDPOINT:"",GITHUB_REPO:"OWNER/REPO"};
+// [地區,名稱,1~12月(2最佳/1可/0避開),最佳季節,避開,天數,跟團(萬),自由行(萬),提醒]
+const D=[
+["東北亞","日本","112220001221","3–5月賞櫻、10–11月楓葉","6–8月濕熱、颱風",5,"3–5","1.8–3.2","櫻花季與楓葉季機票住宿最貴，提早 3–4 個月訂"],
+["東北亞","韓國","001221002210","4–5月、9–10月","12–2月嚴寒、7–8月雨熱",5,"1.8–3","1.2–2","航程短，週末出發最划算"],
+["東北亞","中國","001221002210","4–5月、9–10月","1–2月春節、7–8月高溫",6,"2–3.5","1.5–2.5","依城市差異大；入境與支付方式出發前確認"],
+["東南亞","泰國","221000000122","11–2月涼季","6–10月雨季、3–5月酷熱",5,"1.5–2.8","1.2–2","潑水節 4 月中前後很熱鬧但極熱"],
+["東南亞","越南","222110000112","11–4月（北越 10–4月較舒服）","7–9月颱風雨季",5,"1.5–2.7","1–1.8","南北氣候不同，行程先選區域"],
+["東南亞","新加坡","112211111100","2–4月較乾","11–1月雨量多",4,"2.5–4","2–3.2","全年炎熱，花費偏高"],
+["東南亞","菲律賓","222210000012","11–4月乾季","6–10月雨季颱風",5,"1.8–3","1.2–2.2","離島行程注意航班與天候"],
+["東南亞","印尼峇里","000122222210","4–10月乾季","11–3月雨季",5,"2.5–4","1.8–3","7–8月與跨年最貴"],
+["歐洲","英國","000122222100","5–9月","11–2月日短陰雨",8,"8–13","6–10","夏季日照長，適合長天數"],
+["歐洲","法國","001222112210","4–6月、9–10月","12–2月寒冷、8月多店休",8,"8–13","6–10","7–8月人潮與價格最高"],
+["歐洲","義大利","001222102210","4–6月、9–10月","7–8月酷熱",9,"8–14","6–10","暑假景點排隊久，建議預約"],
+["美國","美西","112222112211","4–6月、9–10月","內陸沙漠 7–8月極熱",9,"8.5–13","6.5–10","租車與保險費用要另算"],
+["美國","夏威夷","111222112211","4–6月、9–10月","12–2月浪大雨多",7,"6.5–10","5–8.5","飯店度假費另計，租車建議先訂"]];
+const $=s=>document.querySelector(s),RG=["全部","東北亞","東南亞","歐洲","美國"],L=["避開","可去","最佳"];
+let reg="全部",cur=new Date().getMonth();
+$("#mon").innerHTML=Array.from({length:12},(_,i)=>`<option value="${i}"${i==cur?" selected":""}>${i+1} 月</option>`).join("");
+$("#mon").onchange=e=>{cur=+e.target.value;list()};
+function regions(){$("#reg").innerHTML=RG.map(r=>`<button class="chip" aria-pressed="${r==reg}" data-r="${r}">${r}</button>`).join("");
+ $("#reg").querySelectorAll("button").forEach(b=>b.onclick=()=>{reg=b.dataset.r;regions();list()})}
+function list(){$("#lt").textContent=`${cur+1} 月去哪裡比較合適`;
+ const a=D.map((d,i)=>[d,i]).filter(([d])=>reg=="全部"||d[0]==reg).sort((x,y)=>y[0][2][cur]-x[0][2][cur]);
+ $("#list").innerHTML=a.map(([d,i])=>{const s=d[2][cur];return `<button class="item" data-i="${i}"><span class="dot d${s}"></span><span><b>${d[1]}</b>・${L[s]}<small>跟團 ${d[6]} 萬｜自由行 ${d[7]} 萬（${d[5]} 天）</small></span></button>`}).join("");
+ $("#list").querySelectorAll("button").forEach(b=>b.onclick=()=>show(+b.dataset.i))}
+function show(i){const d=D[i];
+ $("#detail").innerHTML=`<div class="card" id="dc"><h3>${d[1]}</h3><div class="legend">12 個月適合度（綠＝最佳、黃＝可去、紅＝避開）</div>
+ <div class="months">${[...d[2]].map((s,k)=>`<i class="m${s}">${k+1}</i>`).join("")}</div>
+ <p>最佳：${d[3]}<br>避開：${d[4]}</p>
+ <div class="price"><div><span>跟團（${d[5]} 天）</span><b>${d[6]} 萬</b></div><div><span>自由行（${d[5]} 天）</span><b>${d[7]} 萬</b></div></div>
+ <p class="legend">${d[8]}</p><button class="btn" id="share">傳到聊天室</button></div>`;
+ $("#dc").scrollIntoView({behavior:"smooth",block:"nearest"});
+ $("#share").onclick=()=>send(`${d[1]}｜最佳：${d[3]}｜跟團 ${d[6]} 萬、自由行 ${d[7]} 萬（${d[5]} 天，概估）`)}
+async function send(t){try{if(window.liff&&liff.isInClient()){await liff.sendMessages([{type:"text",text:t}]);liff.closeWindow()}else{await navigator.clipboard.writeText(t);alert("已複製，可貼到 LINE 聊天室")}}catch(e){alert("無法傳送："+t)}}
+$("#ask").onclick=async()=>{const q=$("#q").value.trim();if(!q)return;const o=$("#ans");
+ if(!CFG.AI_ENDPOINT){o.innerHTML='<div class="ans">AI 問答還沒設定：把部署好的 Worker 網址填進 CFG.AI_ENDPOINT 就能使用。</div>';return}
+ o.innerHTML='<div class="ans">思考中…</div>';
+ try{const r=await fetch(CFG.AI_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({q})});o.innerHTML="";const d=document.createElement("div");d.className="ans";d.textContent=(await r.json()).answer||"沒有收到回答，請稍後再試。";o.append(d)}
+ catch(e){o.innerHTML='<div class="ans">連線失敗，請稍後再試。</div>'}};
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{document.querySelectorAll("nav button").forEach(x=>x.setAttribute("aria-selected",x==b));document.querySelectorAll("section").forEach(s=>s.classList.toggle("on",s.id==b.dataset.t))});
+$("#gh").onclick=()=>open(`https://github.com/${CFG.GITHUB_REPO}/issues/new?title=${encodeURIComponent("問答頁回報")}&body=${encodeURIComponent($("#bugtx").value)}`,"_blank");
+$("#sendbug").onclick=()=>send("【問題回報】"+$("#bugtx").value);
+if(CFG.LIFF_ID){const s=document.createElement("script");s.src="https://static.line-scdn.net/liff/edge/2/sdk.js";s.onload=()=>liff.init({liffId:CFG.LIFF_ID}).catch(()=>{});document.head.append(s)}
+regions();list();
+</script></body></html>
